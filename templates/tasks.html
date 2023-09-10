@@ -1,0 +1,114 @@
+{% include "base.html" %}
+
+{% block content %}
+
+    <h1>Today tasks</h1>
+
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="weather-card d-flex justify-content-between mb-3">
+                <div>
+                    <p class="fs-4">{{task["title"]}}</p>
+                    <p class="text-warning">{{task["desc"]}}</p>
+                    <p>Category: {{task["category"]}}</p>
+                    <p>Priority: {{task["urgency"]}}</p>
+                    
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-bs-target="#id{{task['_id']}}">
+                        U
+                      </button>
+                      
+
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure? Task to delete: {{task['title']}}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                              <form method="post" action="/delete-tasks/{{task['_id']}}">
+                                <button type="button" class="btn btn-primary">Tak, usuń</button>
+                              </form>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+    <button 
+    class="btn btn-primary add-btn"
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight"
+    aria-controls="offcanvasRight">
+        <i class="bi bi-bookmark-plus"></i>
+    </button>
+
+
+   
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form method="post" action="/add-task">
+            <div class="mb-3">
+                <label for="Title" class="form-label">Title</label>
+                <input minlength="5" name="title" type="text" class="form-control" id="Title" placeholder="Type task title">
+            </div>
+
+            <div class="mb-3">
+                <label for="Desc" class="form-label">Descriprion</label>
+                <input minlength="10" required name="desc" type="text" class="form-control" id="Desc" placeholder="Type a short description">
+            </div>
+
+            <div class="mb-3">
+                <label for="Category" class="form-label">Category</label>
+                <select required name="category" id="Category" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="hobby">Hobby</option>
+                    <option value="food">Food</option>
+                    <option value="job">Job</option>
+                  </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="Urgency" class="form-label">Category</label>
+                <select required name="urgency" id="urgency" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>Select task urgency</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+            </div>
+
+            <button tybe="submit" class="btn btn-primary">CREATE</button>
+
+        </form>
+      </div>
+    </div>
+
+
+
+{% endblock %}
